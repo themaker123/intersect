@@ -195,9 +195,11 @@ void input(int argc,char *argv[]) {
 	}
 }
 int main(int argc, char* argv[]) {
-	input(argc, argv);
-	//inputModule();
+	//input(argc, argv);
+	inputModule();
 	lineOnly();
+	lineAndCircle();
+	circleOnly();
 	cout << dots.size() << endl;
 	out << dots.size() << endl;
 	/*
