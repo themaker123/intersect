@@ -33,46 +33,41 @@ int calaIntersectLineOnly(line l0,line l1){
 	return 0;
 }
 int calaIntersectLineCircle(line l, line circle) {
-	double k = 0, b = 0, a = 0, c = 0, r = 0 ;
-	double x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+	double  a = 0, c = 0, r = 0 ;
 	dot d1, d2;
 	a = circle.a;
 	c = circle.b;
 	r = circle.c;
 	//如果斜率不存在
 	if (l.b == 0) {
-		double t = -1 * l.c / l.a;
-		x1 = t;
-		x2 = t;
-		double delt = r * r - (t - a) * (t - a);
+		double t;
+		t= -1 * l.c / l.a;
+		double delt;
+		delt = r * r - a * a - (l.c * l.c + 2 * l.c * a * l.a) / (l.a * l.a);
 		if (delt < 0) return -1;
-		double t1 = sqrt(delt);
-		y1 = c + t1;
-		y2 = c - t1;
-		d1.x = x1;
-		d1.y = y1;
-		d2.x = x2;
-		d2.y = y2;
+		double t1;
+		t1= sqrt(delt);
+		d1.x = t;
+		d1.y = c + t1;
+		d2.x = t;
+		d2.y = c - t1;
 		dots.insert(d1);
 		dots.insert(d2);
 	}
 	else {
-		k = -1 * (l.a / l.b);
-		b = -1 * (l.c / l.b);
-		double a2 = k * k + 1;
-		double b2 = 2 * (b - c) * k - 2 * a;
-		double c2 = a * a + b * b + c * c - r * r - 2 * b * c;
-		double delt2 = b2 * b2 - 4 * a2 * c2;
+		double b_2 = l.b * l.b;
+		double a2 = b_2+l.a*l.a;
+		double b2 = -2*b_2*a + 2 * l.a * (l.c + l.b * c);
+		double c2 = a*a*b_2 + (l.c + l.b * c) * (l.c + l.b * c) - r*r*b_2;
+		double delt2;
+		delt2 = b2 * b2 - 4 * a2 * c2;
 		if (delt2 < 0) return -1;
-		double delt = sqrt(delt2);
-		x1 = (-1 * b2 + delt) / (2 * a2);
-		x2 = (-1 * b2 - delt) / (2 * a2);
-		y1 = k * x1 + b;
-		y2 = k * x2 + b;
-		d1.x = x1;
-		d1.y = y1;
-		d2.x = x2;
-		d2.y = y2;
+		double delt;
+		delt = sqrt(delt2);
+		d1.x = (-1 * b2 + delt) / (2 * a2);
+		d2.x = (-1 * b2 - delt) / (2 * a2);
+		d1.y = (-l.a*d1.x-l.c)/l.b;
+		d2.y = (-l.a * d2.x - l.c) / l.b;
 		dots.insert(d1);
 		dots.insert(d2);
 	}
@@ -195,8 +190,8 @@ void input(int argc,char *argv[]) {
 	}
 }
 int main(int argc, char* argv[]) {
-	input(argc, argv);
-	//inputModule();
+	//input(argc, argv);
+	inputModule();
 	lineOnly();
 	lineAndCircle();
 	circleOnly();

@@ -3,19 +3,25 @@
 #define GLOBAL_H
 #include<vector>
 #include<set>
+#include<cmath>
 using namespace std;
 class dot {
 public:
 	double x;
 	double y;
+	
 	bool operator < (const dot& d)const
 	{
-		if (d.x > x) return true;
-		else if (d.x == x) {
-			if (d.y < y) return true;
+		if (fabs(d.x - x) < 1e-7 && fabs(d.y - y) < 1e-7) return false;
+		else {
+			if (d.x > x) return true;
+			else if (d.x == x) {
+				if (d.y < y) return true;
+				else return false;
+			}
 			else return false;
 		}
-		else return false;
+		
 	}
 };
 // ax+by+c=0
