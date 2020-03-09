@@ -21,14 +21,12 @@ void trans(line &l,int x1,int y1,int x2,int y2) {
 	l.c = c;
 }
 int calaIntersectLineOnly(line l0,line l1){
-	double x, y, k;
+	double  k;
 	dot d;
 	k = l0.a * l1.b - l0.b * l1.a;
 	if (k == 0) return -1;//平行没有交点
-	x = (l0.b * l1.c - l0.c * l1.b) / k;
-	y = (l1.a * l0.c - l1.c * l0.a) / k;
-	d.x = x;
-	d.y = y;
+	d.x = (l0.b * l1.c - l0.c * l1.b) / k;
+	d.y = (l1.a * l0.c - l1.c * l0.a) / k;
 	dots.insert(d);
 	return 0;
 }
@@ -49,9 +47,10 @@ int calaIntersectLineCircle(line l, line circle) {
 		t1= sqrt(delt);
 		d1.x = t;
 		d1.y = c + t1;
+		dots.insert(d1);
+		if (delt == 0) return 0;
 		d2.x = t;
 		d2.y = c - t1;
-		dots.insert(d1);
 		dots.insert(d2);
 	}
 	else {
@@ -65,10 +64,11 @@ int calaIntersectLineCircle(line l, line circle) {
 		double delt;
 		delt = sqrt(delt2);
 		d1.x = (-1 * b2 + delt) / (2 * a2);
-		d2.x = (-1 * b2 - delt) / (2 * a2);
-		d1.y = (-l.a*d1.x-l.c)/l.b;
-		d2.y = (-l.a * d2.x - l.c) / l.b;
+		d1.y = (-l.a * d1.x - l.c) / l.b;
 		dots.insert(d1);
+		if (delt == 0) return 0;
+		d2.x = (-1 * b2 - delt) / (2 * a2);
+		d2.y = (-l.a * d2.x - l.c) / l.b;
 		dots.insert(d2);
 	}
 	return 0;
@@ -117,7 +117,7 @@ void lineAndCircle() {
 }
 void circleOnly() {
 	int size = circles.size();
-	int j = 0;;
+	int j = 0;
 	line l0, l1;
 	for (int i = 0; i < size; i++) {
 		l0 = circles.at(i);
@@ -190,27 +190,11 @@ void input(int argc,char *argv[]) {
 	}
 }
 int main(int argc, char* argv[]) {
-	//input(argc, argv);
-	inputModule();
+	input(argc, argv);
+	//inputModule();
 	lineOnly();
 	lineAndCircle();
 	circleOnly();
 	cout << dots.size() << endl;
 	out << dots.size() << endl;
-	/*
-	string path = "point.txt";
-	ofstream out;
-	out.open(path, ios::out);
-
-	set<dot>::iterator iter = dots.begin();
-	int o = 0;
-	while (iter != dots.end())
-	{
-		o++;
-		out<<o<<" "<<iter->x<<" , "<<iter->y<<endl;
-		iter++;
-	}
-	out.close();
-	*/
-
 }

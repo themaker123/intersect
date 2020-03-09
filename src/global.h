@@ -14,12 +14,8 @@ public:
 	{
 		if (fabs(d.x - x) < 1e-7 && fabs(d.y - y) < 1e-7) return false;
 		else {
-			if (d.x > x) return true;
-			else if (d.x == x) {
-				if (d.y < y) return true;
-				else return false;
-			}
-			else return false;
+			if (fabs(d.x - x) >= 1e-7) return x<d.x;
+			else return y<d.y;
 		}
 		
 	}
